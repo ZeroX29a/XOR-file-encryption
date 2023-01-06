@@ -2,10 +2,12 @@
 
 
 > JCtine
+
 This work is a dreivattion of the [project done by simon](https://github.com/mightbesimon/XOR-file-encryption)
 
 Encrypts files with a password byte-by-byte using a XOR cipher.
-##New!
+
+## New!
 * Added Reversing the File as a block: File is broken into blocks of size given by the user and the block is reversed and replaced.
 * This Prevents decryption by bruteforcing the Password 
 
