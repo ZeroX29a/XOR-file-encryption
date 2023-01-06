@@ -7,6 +7,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 
 // define some constants
 #define MAX_FILENAME	15
@@ -22,35 +24,6 @@ void print_first_five(char *filename);
 
 /*
 */
-int main(int argc, char *argv[])
-{
-	// check valid arguments //
-	if (argc != 3) {
-		printf("usage:   %s <filename> <password>\n",  argv[0]);
-    	printf("example: %s auckland.jpg password1\n", argv[0]);
-    	return 1;
-	}
-
-	/******** PART 1 ********/
-	char filename_new[20];
-
-	make_new_name(filename_new, argv[1]);
-	printf("New filename = %s\n", filename_new);
-	printf("Password length = %d\n", length_of_password(argv[2]));
-
-	/******** PART 2 ********/
-	if (!is_valid_password(argv[2])) return 1;
-									// quit if invalid password
-
-	/******** PART 3 ********/
-	perform_XOR(argv[1], filename_new, argv[2]);
-
-	/******** PART 4 ********/
-	print_first_five(filename_new);
-
-
-	return 0;
-}
 
 /*	append 'new-' in front of filename
 */
@@ -165,3 +138,87 @@ void print_first_five(char *filename)
 	fclose(file);
 }
 
+
+
+
+
+void make_new_reverse_name(char *new_name, char *original_name)
+{
+	strcpy(new_name, "reversed-");
+	strcat(new_name, original_name);
+}
+
+
+
+
+
+void reverse(char *input_filename, char *output_filename, int block_size)
+{
+	FILE *input_file, *output_file;
+	unsigned char block[block_size];
+	int num_bytes;
+
+	// files
+	input_file  = fopen( input_filename, "rb");
+	output_file = fopen(output_filename, "wb");
+
+	// reverse
+	do {
+		num_bytes = fread(block, 1, block_size, input_file);
+
+		// reverse byte by byte
+		for (int i = 0; i < num_bytes/2; i++) {
+			unsigned char temp = block[i];
+			block[i] = block[num_bytes-1-i];
+			block[num_bytes-1-i] = temp;
+		}
+
+		fwrite(block, 1, num_bytes, output_file);
+	} while (num_bytes == block_size);
+
+	// clean up
+	fclose( input_file);
+	fclose(output_file);
+}
+
+
+
+
+
+
+
+int main(int argc, char *argv[])
+{
+	// check valid arguments //
+	if (argc != 4) {
+		printf("usage:   %s <filename> <password>\n",  argv[0]);
+    	printf("example: %s auckland.jpg password1\n", argv[0]);
+    	return 1;
+	}
+
+	/******** PART 1 ********/
+	char filename_new[20];
+	char rev_filename_new[30];
+
+	make_new_name(filename_new, argv[1]);
+	make_new_reverse_name(rev_filename_new, filename_new);
+
+	printf("New filename = %s\n", filename_new);
+	printf("Password length = %d\n", length_of_password(argv[2]));
+
+	/******** PART 2 ********/
+	if (!is_valid_password(argv[2])) return 1;
+									// quit if invalid password
+
+	/******** PART 3 ********/
+	perform_XOR(argv[1], filename_new, argv[2]);
+
+	/******** PART 4 ********/
+	reverse(filename_new, rev_filename_new, atoi(argv[3]));
+
+	/******** PART 5 ********/
+	print_first_five(filename_new);
+
+
+	return 0;
+}
