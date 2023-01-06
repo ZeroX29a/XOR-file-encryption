@@ -25,7 +25,13 @@ void print_first_five(char *filename);
 /*
 */
 
-/*	append 'new-' in front of filename
+void make_new_reverse_name(char *new_name, char *original_name)
+{
+	strcpy(new_name, "r");
+	strcat(new_name, original_name);
+}
+
+/*	append 'n-' in front of filename
 */
 void make_new_name(char *new_name, char *original_name)
 {
@@ -102,8 +108,8 @@ void perform_XOR(char *input_filename, char *output_filename, char *password)
 	int num_bytes;
 
 	// files
-	input_file  = fopen( input_filename, "rb");
-	output_file = fopen(output_filename, "wb");
+	input_file  = fopen( input_filename, "r+b");
+	output_file = fopen(output_filename, "w+b");
 
 	// encryption|decryption
 	do {
@@ -124,29 +130,21 @@ void perform_XOR(char *input_filename, char *output_filename, char *password)
 /*	output first five bytes of file
 	in 2-digit hex
 */
-void print_first_five(char *filename)
-{
-	FILE *file = fopen(filename, "rb");
-	unsigned char block[5];
+// void print_first_five(char *filename)
+// {
+// 	FILE *file = fopen(filename, "rb");
+// 	unsigned char block[5];
 
-	fread(block, 1, 5, file);
+// 	fread(block, 1, 5, file);
 
-	for (int i = 0; i < 5; i++)
-		printf("%02x\n", block[i]);
+// 	for (int i = 0; i < 5; i++)
+// 		printf("%02x\n", block[i]);
 
-	// clean up
-	fclose(file);
-}
-
-
+// 	// clean up
+// 	fclose(file);
+// }
 
 
-
-void make_new_reverse_name(char *new_name, char *original_name)
-{
-	strcpy(new_name, "r-");
-	strcat(new_name, original_name);
-}
 
 
 
@@ -159,8 +157,8 @@ void reverse(char *input_filename, char *output_filename, int block_size)
 	int num_bytes;
 
 	// files
-	input_file  = fopen( input_filename, "rb");
-	output_file = fopen(output_filename, "wb");
+	input_file  = fopen( input_filename, "r+b");
+	output_file = fopen(output_filename, "w+b");
 
 	// reverse
 	do {
@@ -189,9 +187,9 @@ int dec(char *argv[]){
 	char rev_filename_new[30];
 
 	make_new_name(filename_new, argv[2]);
-	make_new_reverse_name(rev_filename_new, filename_new);
+	make_new_reverse_name(rev_filename_new, argv[2]);
 
-	printf("New filename = %s\n", filename_new);
+	printf("New filename = %s\n", rev_filename_new);
 	printf("Password length = %d\n", length_of_password(argv[3]));
 
 	/******** PART 2 ********/
@@ -204,9 +202,9 @@ int dec(char *argv[]){
 
 	/******** PART 4 ********/
 	perform_XOR( filename_new, rev_filename_new, argv[3]);
-
-	/******** PART 5 ********/
-	print_first_five(filename_new);
+	remove(filename_new);
+	// /******** PART 5 ********/
+	// print_first_five(filename_new);
 
 }
 
@@ -221,9 +219,9 @@ int enc(char *argv[]){
 	char rev_filename_new[30];
 
 	make_new_name(filename_new, argv[2]);
-	make_new_reverse_name(rev_filename_new, filename_new);
+	make_new_reverse_name(rev_filename_new, argv[2]);
 
-	printf("New filename = %s\n", filename_new);
+	printf("New filename = %s\n", rev_filename_new);
 	printf("Password length = %d\n", length_of_password(argv[3]));
 
 	/******** PART 2 ********/
@@ -235,9 +233,9 @@ int enc(char *argv[]){
 
 	/******** PART 4 ********/
 	reverse(filename_new, rev_filename_new, atoi(argv[4]));
-
-	/******** PART 5 ********/
-	print_first_five(filename_new);
+	remove(filename_new);
+	// /******** PART 5 ********/
+	// print_first_five(filename_new);
 
 }
 
@@ -257,7 +255,7 @@ int enc(char *argv[]){
 
 int main(int argc, char *argv[])
 {
-		print_first_five(argv[2]);
+		// print_first_five(argv[2]);
     // check valid arguments //
 	if (argc != 5) {
 		printf("usage:   %s <mode[-e or -d]> <filename> <password> <reversing block size[<16]>\n", argv[0]);

@@ -1,10 +1,13 @@
 # XOR File Encryption #
 
-> COMPSCI 210  
-> University of Auckland  
-> Simon Shan
+
+> JCtine
+This work is a dreivattion of the [project done by simon](https://github.com/mightbesimon/XOR-file-encryption)
 
 Encrypts files with a password byte-by-byte using a XOR cipher.
+##New!
+* Added Reversing the File as a block: File is broken into blocks of size given by the user and the block is reversed and replaced.
+* This Prevents decryption by bruteforcing the Password 
 
 Decryption is the same process,  
 only the password *used to encrypt* will decrypt the file.
@@ -12,28 +15,30 @@ only the password *used to encrypt* will decrypt the file.
 ### compile ###
 
 ```bash
-$ gcc fileEncrypt.c -o xor
+$ gcc enc.c -o xore
+$ gcc dec.c -o xord
+$ gcc both.c -o xorb
 ```
 
 ### usage ###
 
 ```
-$ ./xor <filename> <password>
+$ ./xorb <mode[-e or -d]> <filename> <password> <reversing block size[<16]>
 ```
 
 ### example ###
 ```bash
-$ ./xor auckland.jpg password1
+$ ./xorb -e auckland.jpg password1 13
 ```
-will produce `new-auckland.jpg` file, to decrypt:
+will produce `rauckland.jpg` file, to decrypt:
 ```bash
-$ ./xor new-auckland.jpg password1
+$ ./xorb -d rauckland.jpg password1 13
 ```
-`new-new-auckland.jpg` will be identical to the original
+`rrauckland.jpg` will be identical to the original
 
 ## Authors ##
-
-- **simon** - *~~buy my merch~~ hire me pls* - [mightbesimon](https://github.com/mightbesimon)
+- **JCtine** - [ZeroX29a](https://github.com/ZeroX29a)
+- **simon** - [mightbesimon](https://github.com/mightbesimon)
 
 ## License ##
 
@@ -42,4 +47,3 @@ MIT
 ## Acknowledgments ##
 
 - **these are just my sample codes, if you misuse them its not my problem**
-- this was fun assignment, easy to code and useful!
