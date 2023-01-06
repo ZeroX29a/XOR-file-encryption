@@ -22,13 +22,13 @@ $ gcc dec.c -o xord
 $ gcc both.c -o xorb
 ```
 
-### usage ###
+### Usage ###
 
 ```
 $ ./xorb <mode[-e or -d]> <filename> <password> <reversing block size[<16]>
 ```
 
-### example ###
+### Example ###
 ```bash
 $ ./xorb -e auckland.jpg password1 13
 ```
@@ -37,6 +37,10 @@ will produce `rauckland.jpg` file, to decrypt:
 $ ./xorb -d rauckland.jpg password1 13
 ```
 `rrauckland.jpg` will be identical to the original
+## Hashes
+The Hash of auckland.jpg and rrauckland.jpg is same
+
+![hash](hash.png)
 
 ## Authors ##
 - **JCtine** - [ZeroX29a](https://github.com/ZeroX29a)
