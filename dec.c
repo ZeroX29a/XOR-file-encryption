@@ -1,9 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-/*	COMPSCI 210 (2020) - University of Auckland
-	ASSIGNMENT TWO - XOR File Encryption
-	Simon Shan	441147157
-*/
 
 #include <stdio.h>
 #include <string.h>

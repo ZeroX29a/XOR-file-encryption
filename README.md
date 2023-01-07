@@ -42,7 +42,7 @@ $ ./xord rauckland.jpg passwdd123 13
 ## Hashes
 The Hash of auckland.jpg and rrauckland.jpg is same
 
-![hash](hash.png)
+![hash](./ref_pics/hash.png)
 
 ## Authors ##
 - **JCtine** - [ZeroX29a](https://github.com/ZeroX29a)
