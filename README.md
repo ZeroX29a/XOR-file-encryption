@@ -30,12 +30,12 @@ $ ./xorb <mode[-e or -d]> <filename> <password> <reversing block size[<16]>
 
 ### Example ###
 ```bash
-$ ./xorb -e auckland.jpg password1 13
+$ ./xorb -e auckland.jpg password1 13 #OR
 $ ./xore auckland.jpg passwdd123 13
 ```
 will produce `rauckland.jpg` file, to decrypt:
 ```bash
-$ ./xorb -d rauckland.jpg password1 13
+$ ./xorb -d rauckland.jpg password1 13 #OR
 $ ./xord rauckland.jpg passwdd123 13
 ```
 `rrauckland.jpg` will be identical to the original
