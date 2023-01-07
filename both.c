@@ -259,7 +259,7 @@ int main(int argc, char *argv[])
     // check valid arguments //
 	if (argc != 5) {
 		printf("usage:   %s <mode[-e or -d]> <filename> <password> <reversing block size[<16]>\n", argv[0]);
-		printf("example: %s auckland.jpg password1 12\n", argv[0]);
+		printf("example: %s -e auckland.jpg password1 12\n", argv[0]);
 		return 1;
 	}
     if (atoi(argv[4]) > 16){
