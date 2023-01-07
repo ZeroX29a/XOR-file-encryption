@@ -3,7 +3,7 @@
 
 > JCtine
 
-This work is a dreivattion of the [project done by simon](https://github.com/mightbesimon/XOR-file-encryption)
+This work is a built up on the [project done by simon](https://github.com/mightbesimon/XOR-file-encryption)
 
 Encrypts files with a password byte-by-byte using a XOR cipher.
 
@@ -17,9 +17,9 @@ only the password *used to encrypt* will decrypt the file.
 ### compile ###
 
 ```bash
-$ gcc enc.c -o xore
-$ gcc dec.c -o xord
-$ gcc both.c -o xorb
+$ gcc enc.c -o xore #Just encrypting engine
+$ gcc dec.c -o xord #Just decrypting engine
+$ gcc both.c -o xorb #This alone is enough
 ```
 
 ### Usage ###
