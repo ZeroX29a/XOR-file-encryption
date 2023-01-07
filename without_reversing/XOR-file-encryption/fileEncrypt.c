@@ -1,10 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+/*	COMPSCI 210 (2020) - University of Auckland
+	ASSIGNMENT TWO - XOR File Encryption
+	Simon Shan	441147157
+*/
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-
 
 // define some constants
 #define MAX_FILENAME	15
@@ -20,20 +22,41 @@ void print_first_five(char *filename);
 
 /*
 */
-
-
-void make_new_reverse_name(char *new_name, char *original_name)
+int main(int argc, char *argv[])
 {
-	strcpy(new_name, "r");
-	strcat(new_name, original_name);
-}
+	// check valid arguments //
+	if (argc != 3) {
+		printf("usage:   %s <filename> <password>\n",  argv[0]);
+    	printf("example: %s auckland.jpg password1\n", argv[0]);
+    	return 1;
+	}
 
+	/******** PART 1 ********/
+	char filename_new[20];
+
+	make_new_name(filename_new, argv[1]);
+	printf("New filename = %s\n", filename_new);
+	printf("Password length = %d\n", length_of_password(argv[2]));
+
+	/******** PART 2 ********/
+	if (!is_valid_password(argv[2])) return 1;
+									// quit if invalid password
+
+	/******** PART 3 ********/
+	perform_XOR(argv[1], filename_new, argv[2]);
+
+	/******** PART 4 ********/
+	print_first_five(filename_new);
+
+
+	return 0;
+}
 
 /*	append 'new-' in front of filename
 */
 void make_new_name(char *new_name, char *original_name)
 {
-	strcpy(new_name, "n-");
+	strcpy(new_name, "new-");
 	strcat(new_name, original_name);
 }
 
@@ -126,112 +149,19 @@ void perform_XOR(char *input_filename, char *output_filename, char *password)
 }
 
 /*	output first five bytes of file
-// 	in 2-digit hex
-// */
-// void print_first_five(char *filename)
-// {
-// 	FILE *file = fopen(filename, "rb");
-// 	unsigned char block[5];
-
-// 	fread(block, 1, 5, file);
-
-// 	for (int i = 0; i < 5; i++)
-// 		printf("%02x\n", block[i]);
-
-// 	// clean up
-// 	fclose(file);
-// }
-
-
-
-
-
-
-
-void reverse(char *input_filename, char *output_filename, int block_size)
+	in 2-digit hex
+*/
+void print_first_five(char *filename)
 {
-	FILE *input_file, *output_file;
-	unsigned char block[block_size];
-	int num_bytes;
+	FILE *file = fopen(filename, "rb");
+	unsigned char block[5];
 
-	// files
-	input_file  = fopen( input_filename, "rb");
-	output_file = fopen(output_filename, "wb");
+	fread(block, 1, 5, file);
 
-	// reverse
-	do {
-		num_bytes = fread(block, 1, block_size, input_file);
-
-		// reverse byte by byte
-		for (int i = 0; i < num_bytes/2; i++) {
-			unsigned char temp = block[i];
-			block[i] = block[num_bytes-1-i];
-			block[num_bytes-1-i] = temp;
-		}
-
-		fwrite(block, 1, num_bytes, output_file);
-	} while (num_bytes == block_size);
+	for (int i = 0; i < 5; i++)
+		printf("%02x\n", block[i]);
 
 	// clean up
-	fclose( input_file);
-	fclose(output_file);
+	fclose(file);
 }
 
-
-
-
-
-
-
-int main(int argc, char *argv[])
-{
-	// check valid arguments //
-	if (argc != 4) {
-		printf("usage:   %s <filename> <password> <reversing block size[<16]>\n", argv[0]);
-		printf("example: %s auckland.jpg password1 12\n", argv[0]);
-		return 1;
-	}
-
-
-	if (atoi(argv[3]) > 16){
-        printf("Block size must be less than 16\n");
-        return 0;
-    }
-    if (atoi(argv[3]) < 1){
-        printf("Block size must be greater than 0\n");
-        return 0;
-    }
-    if (atoi(argv[3]) == 0){
-        printf("Block size must be an integer\n");
-        return 0;
-    }
-
-
-
-	/******** PART 1 ********/
-	char filename_new[20];
-	char rev_filename_new[30];
-
-	make_new_name(filename_new, argv[1]);
-	make_new_reverse_name(rev_filename_new, argv[1]);
-
-	printf("New filename = %s\n", rev_filename_new);
-	printf("Password length = %d\n", length_of_password(argv[2]));
-
-	/******** PART 2 ********/
-	if (!is_valid_password(argv[2])) return 1;
-									// quit if invalid password
-
-	/******** PART 3 ********/
-	perform_XOR(argv[1], filename_new, argv[2]);
-
-	/******** PART 4 ********/
-	reverse(filename_new, rev_filename_new, atoi(argv[3]));
-	remove(filename_new);
-
-	// /******** PART 5 ********/
-	// print_first_five(filename_new);
-
-
-	return 0;
-}
